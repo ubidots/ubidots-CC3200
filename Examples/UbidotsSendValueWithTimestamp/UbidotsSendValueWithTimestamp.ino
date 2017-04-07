@@ -17,10 +17,11 @@ void setup()
   //client.setDebug(true); // Uncomment this line to set DEBUG on
 }
 
-void loop()
-{
-  float value = analogRead(A0);
-  client.add(VARIABLE_LABEL, value);
-  client.sendAll();
-  delay(5000);
+void loop(){
+    float value = analogRead(0);
+    unsigned long t = client.ntpUnixTime(); // calculates your actual timestamp in SECONDS
+
+	client.add(VARIABLE_LABEL, value, context);
+	client.sendAll();
+    delay(5000);
 }

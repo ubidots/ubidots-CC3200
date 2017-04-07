@@ -17,10 +17,13 @@ void setup()
   //client.setDebug(true); // Uncomment this line to set DEBUG on
 }
 
-void loop()
-{
-  float value = analogRead(A0);
-  client.add(VARIABLE_LABEL, value);
+void loop(){
+
+  float value = analogRead(0);
+  char context[25];
+  sprintf(context, "lat=1.2343$lng=132.1233"); //Sends latitude and longitude for watching position in a map
+
+  client.add(VARIABLE_LABEL, value, context);
   client.sendAll();
   delay(5000);
 }

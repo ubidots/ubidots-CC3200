@@ -35,35 +35,46 @@ Made by Mateo Velez - Metavix for Ubidots Inc
 
 
 #define SERVER "translate.ubidots.com"
-#define USER_AGENT "CC3200/1.0"
-#define PORT 9010
+#define TIME_SERVER "pool.ntp.org"
+#define USER_AGENT "CC3200"
+#define VERSION "1.1"
+#define PORT 9012
 #define MAX_VALUES 10
+
 
 typedef struct Value {
   char  *idName;
   char  *contextOne;
   float idValue;
+  unsigned long timestamp_val;
 } Value;
 
 class Ubidots {
  public:
-      Ubidots(char* token);
-      bool setDatasourceName(char* dsName);
-      bool setDatasourceTag(char* dsTag);
-      bool wifiConnection(char* ssid, char* password);
       bool sendAll();
+      bool wifiConnection(char* ssid, char* password);
       float getValue(char* id);
-      void add(char *variable_id, double value);
-      void add(char *variable_id, double value, char *ctext1);
       float getValueWithDatasource(char* dsName, char* idName);
+      Ubidots(char* token);
+      unsigned long ntpUnixTime();
+      void setDataSourceName(char* dsName);
+      void setDataSourceLabel(char* dsTag);
+      void add(char *variable_id, double value);
+      void add(char *variable_id, double value, char *ctext);
+      void add(char *variable_id, double value, char *ctext, unsigned long timestamp);
+      void setDebug(bool debug);
+ 
+
  private:
-      WiFiClient _client;
+      bool _debug = false;
       char* _token;
       char* _dsName;
       char* _dsTag;
       uint8_t maxValues;
       uint8_t currentValue;
       Value * val;
+      WiFiClient _client;
+      WiFiUDP udp;    
 };
 
 #endif  // _UbidotsCC3200_H_
