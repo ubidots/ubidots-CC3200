@@ -3,6 +3,7 @@
  *******************************/
  #include <SPI.h>
  #include <WiFi.h>
+ //#define UBI_WIN 1 // Uncomment if you are using Windows
  #include <UbidotsCC3200.h>
 
 /********************************
@@ -29,13 +30,16 @@ void setup() {
 }
 
 void loop() {
-  char* context;
-  const char* lat  = "1.234";
-  const char* lng = "132.123";
+  char* context = (char *) malloc(sizeof(char) * 50);
+  char *lat  = "1.234";
+  char *lng = "132.123";
+
   /* Build the context to be send */
-  sprintf(context, "\"lat\":%s,\"lng\":%s", lat, lng);
+  sprintf(context, "\"lat\":%s, \"lng\":%s", lat, lng);
   /* Sends latitude and longitude for watching position in a map */
   client.add(VARIABLE_LABEL, 1, context);
   client.sendAll();
+  /* free memory */
+  free(context);
   delay(5000);
 }
