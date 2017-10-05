@@ -27,7 +27,6 @@ Modified and Maintened by: María Carlina Hernández ---- Developer at Ubidots I
 #define _UbidotsCC3200_H_
 
 #ifndef __CC3200R1M1RGC__
-// Do not include SPI for CC3200 LaunchPad
 #include <SPI.h>
 #endif
 #include <WiFi.h>
@@ -39,7 +38,7 @@ namespace {
   const char * USER_AGENT = "CC3200-LAUNCHXL";
   const char * VERSION = "2.0";
   const int PORT = 80;
-  const float ERROR_VALUE = -3.4028235E+8;
+  const float ERROR_VALUE = -3.4028235E+5;
 }
 
 typedef struct Value {
@@ -55,9 +54,12 @@ class Ubidots {
     const char * _deviceLabel;
     const char * _token;
     const char* _server;
+    #if defined(UBI_WIN)
+    float _value;
+    #endif
     int dataLen(char* variable);
-    uint8_t maxValues;
-    uint8_t currentValue;
+    uint8_t _maxValues;
+    uint8_t _currentValue;
     Value * val;
     WiFiClient _client;
     WiFiUDP udp;
