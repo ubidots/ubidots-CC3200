@@ -3,6 +3,7 @@
  *******************************/
  #include <SPI.h>
  #include <WiFi.h>
+ //#define UBI_WIN 1 // Uncomment if you are using Windows
  #include <UbidotsCC3200.h>
 
 /********************************

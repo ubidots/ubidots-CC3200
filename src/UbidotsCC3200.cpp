@@ -31,10 +31,10 @@ Modified and Maintened by: María Carlina Hernández ---- Developer at Ubidots I
 Ubidots::Ubidots(const char* token, const char* server) {
   _token = token;
   _server = server;
-  maxValues = 5;
-  currentValue = 0;
+  _maxValues = 5;
+  _currentValue = 0;
   _deviceLabel = DEFAULT_DEVICE_LABEL;
-  val = (Value *)malloc(maxValues*sizeof(Value));
+  val = (Value *)malloc(_maxValues*sizeof(Value));
 }
 
 /***************************************************************************
@@ -190,14 +190,14 @@ void Ubidots::add(const char * variable_label, float value, unsigned long timest
 }
 
 void Ubidots::add(const char * variable_label, float value, char* ctext, unsigned long timestamp_val ) {
-  (val+currentValue)->varLabel = variable_label;
-  (val+currentValue)->varValue = value;
-  (val+currentValue)->context = ctext;
-  (val+currentValue)->timestamp_val = timestamp_val;
-  currentValue++;
-  if (currentValue>maxValues) {
+  (val+_currentValue)->varLabel = variable_label;
+  (val+_currentValue)->varValue = value;
+  (val+_currentValue)->context = ctext;
+  (val+_currentValue)->timestamp_val = timestamp_val;
+  _currentValue++;
+  if (_currentValue>=_maxValues) {
     Serial.println(F("You are sending more than 5 consecutives variables, you just could send 5 variables. Then other variables will be deleted!"));
-    currentValue = maxValues;
+    _currentValue = _maxValues - 1;
   }
 }
 
@@ -207,13 +207,16 @@ void Ubidots::add(const char * variable_label, float value, char* ctext, unsigne
  */
 bool Ubidots::sendAll() {
   /* Assigns the constans as global on the function */
+  char* str_val = (char *) malloc(sizeof(char) * 30);
   uint8_t max_retries = 0;
   uint8_t timeout = 0;
   uint8_t i = 0;
-  String str;
+  #if !defined(UBI_WIN)
+  float _value;
+  #endif
 
   /* Verify the variables invoked */
-  if (currentValue == 0) {
+  if (_currentValue == 0) {
     Serial.println("Invoke a variable to be send using the method \"add\"");
     return false;
   }
@@ -221,24 +224,26 @@ bool Ubidots::sendAll() {
   /* Builds the JSON to be send */
   char* body = (char *) malloc(sizeof(char) * 150);
   sprintf(body, "{");
-  for (i = 0; i < currentValue;) {
+  for (i = 0; i < _currentValue;) {
+    _value = (val+i)->varValue; // float variable value
     /* Saves variable value in str */
-    str = String(((val+i)->varValue), 3); // variable value
+    dtostrf(_value, 4, 3, str_val); // String variable value
     sprintf(body, "%s\"%s\":", body, (val + i)->varLabel);
     if ((val + i)->context != '\0') {
-      sprintf(body, "%s{\"value\":%s, \"context\":{%s}}", body, str.c_str(), (val + i)->context );
+      sprintf(body, "%s{\"value\":%s, \"context\":{%s}}", body, str_val, (val + i)->context );
     } else if ((val + i)->timestamp_val != '\0') {
-      sprintf(body, "%s{\"value\":%s, \"timestamp\":%lu%s}", body, str.c_str(), (val + i)->timestamp_val, "000");
+      sprintf(body, "%s{\"value\":%s, \"timestamp\":%lu%s}", body, str_val, (val + i)->timestamp_val, "000");
     }  else {
-      sprintf(body, "%s%s", body, str.c_str());
+      sprintf(body, "%s%s", body, str_val);
     }
     i++;
-    if (i < currentValue) {
+    if (i < _currentValue) {
       sprintf(body, "%s, ", body);
     }
   }
-  currentValue = 0;
+  _currentValue = 0;
   sprintf(body, "%s}", body);
+  /* Builds the HTTP request to be POST */
   char* data = (char *) malloc(sizeof(char) * 300);
   sprintf(data, "POST /api/v1.6/devices/%s", _deviceLabel);
   sprintf(data, "%s HTTP/1.1\r\n", data);
@@ -305,9 +310,8 @@ bool Ubidots::sendAll() {
       return 0;
     }
   }
-
-  currentValue = 0;
   /* free memory */
+  free(str_val);
   free(data);
   free(body);
   /* Removes any buffered incoming serial data */
