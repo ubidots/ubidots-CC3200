@@ -26,7 +26,7 @@ The SimpleLink™ Wi-Fi® CC3200 LaunchPad™ development kit (with QFN-packaged
 
 The library will create a new Ubidots device named **"CC3200"**, also assigns the same name as device label. If you desire to assign a different device label, please add to your setup() function the line below:
 
-
+ 
 > client.setDeviceLabel("my-new-device")
 
 **NOTE**: To get a better idea of the difference between **Device Label** and **Device Name**, see the following [guide](http://help.ubidots.com/user-guides/how-to-adjust-the-device-name-and-variable-name).
