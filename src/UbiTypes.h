@@ -45,13 +45,9 @@ typedef struct ContextUbi {
 } ContextUbi;
 
 typedef const char *UbiServer;
-
 typedef const char *UbiToken;
-
 typedef const char *UbiAgent;
-
 typedef int UbiPort;
-
 typedef enum { UBI_HTTP, UBI_TCP, UBI_UDP } IotProtocol;
 
 #endif
