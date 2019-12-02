@@ -182,6 +182,9 @@ void Ubidots::getContext(char *context_result, IotProtocol iotProtocol) {
 }
 
 bool Ubidots::wifiConnect(const char *ssid, const char *password) {
+  if (config) {
+    WiFi.config(_ip, _dns, _gateway, _subnet);
+  }
   WiFi.begin((char *)ssid, (char *)password);
   uint8_t maxConnectionAttempts = 0;
   while (WiFi.status() != WL_CONNECTED &&
@@ -224,4 +227,15 @@ void Ubidots::setDeviceType(const char *deviceType) {
   } else {
     Serial.println("Device Type is only available using HTTP");
   }
+}
+
+void Ubidots::wifiConnectSettings(IPAddress ip, IPAddress dns,
+                                  IPAddress gateway, IPAddress subnet) {
+
+  _ip = ip;
+  _dns = dns;
+  _gateway = gateway;
+  _subnet = subnet;
+
+  config = true;
 }

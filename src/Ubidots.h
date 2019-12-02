@@ -25,8 +25,8 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 #ifndef _Ubidots_H_
 #define _Ubidots_H_
 
-#include "WiFi.h"
 #include "UbiProtocolHandler.h"
+#include "WiFi.h"
 
 class Ubidots {
 
@@ -34,6 +34,7 @@ private:
   bool _debug = false;
   int8_t _current_context = 0;
   uint8_t _maxConnectionAttempts = 20;
+  bool config = false;
 
   char _deviceType[25];
   char _defaultDeviceLabel[18];
@@ -41,6 +42,11 @@ private:
   UbiProtocolHandler *_cloudProtocol;
   ContextUbi *_context;
   IotProtocol _iotProtocol;
+
+  IPAddress _subnet;
+  IPAddress _ip;
+  IPAddress _dns;
+  IPAddress _gateway;
 
   void _builder(const char *token, UbiServer server, IotProtocol iot_protocol);
 
@@ -71,7 +77,10 @@ public:
   void setDebug(bool debug);
 
   bool wifiConnect(const char *ssid, const char *password);
+  void wifiConnectSettings(IPAddress ip, IPAddress dns, IPAddress gateway,
+                           IPAddress subnet);
   bool wifiConnected();
+
   bool serverConnected();
   void getDeviceMac(char macAddr[]);
   void setDeviceType(const char *deviceType);
