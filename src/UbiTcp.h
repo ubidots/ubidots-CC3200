@@ -29,10 +29,6 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 #include <WiFi.h>
 #include <time.h>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#pragma GCC diagnostic pop
-
 class UbiTCP : public UbiProtocol {
 
 private:
