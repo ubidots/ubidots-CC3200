@@ -23,11 +23,8 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 */
 
 #include "UbiBuilder.h"
-
 #include "UbiHttp.h"
-
 #include "UbiTcp.h"
-
 #include "UbiUdp.h"
 
 UbiBuilder::UbiBuilder(const char *server, const char *token,

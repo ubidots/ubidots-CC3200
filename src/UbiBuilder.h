@@ -26,7 +26,6 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 #define _UbiBuilder_H_
 
 #include "Arduino.h"
-
 #include "UbiProtocol.h"
 
 typedef UbiProtocol *(*builderProtocol)(void);

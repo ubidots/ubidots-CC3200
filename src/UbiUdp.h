@@ -26,9 +26,7 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 #define _UbiUdp_H_
 
 #include "Arduino.h"
-
 #include "UbiProtocol.h"
-
 #include "WiFiUdp.h"
 
 class UbiUDP : public UbiProtocol {

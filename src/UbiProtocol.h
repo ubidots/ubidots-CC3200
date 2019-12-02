@@ -26,7 +26,6 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 #define _UbiProtocol_H_
 
 #include "Arduino.h"
-
 #include "UbiConstants.h"
 #include "stdint.h"
 

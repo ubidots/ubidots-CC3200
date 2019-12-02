@@ -26,9 +26,7 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 #define _UbiHttp_H_
 
 #include "UbiProtocol.h"
-
 #include <WiFi.h>
-
 #include <time.h>
 
 #pragma GCC diagnostic push
