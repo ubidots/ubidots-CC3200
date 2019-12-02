@@ -19,7 +19,7 @@ The SimpleLink™ Wi-Fi® CC3200 LaunchPad™ development kit (with QFN-packaged
 6. Select the **.ZIP** file of **Ubidots CC3200-LAUNCHXL** and then "Accept" or "Choose"
 7. Close the Energia IDE and open it again.
 
-**IMPORTANT NOTE**: To be able to compile the CC3200 you have establish the [jumpper settings](http://energia.nu/cc3200guide/) properly.
+**IMPORTANT NOTE**: To be able to compile the CC3200 you have set the [jumpper settings](http://energia.nu/cc3200guide/) properly.
 
 # Documentation
 
@@ -36,10 +36,6 @@ Ubidots(const char* token, UbiServer server, IotProtocol iot_protocol)
 > @iot_protocol, [Optional], [Options] = [`UBI_HTTP`, `UBI_TCP`, `UBI_UDP`], [Default] = `UBI_TCP`. The IoT protocol that you will use to send or retrieve data.
 
 Creates an Ubidots instance.
-
-**NOTE:** If you use HTTP or TCP to send data, the client will implement TLS 2.0 using the ![native ESP8266 secure client](https://github.com/esp8266/Arduino/blob/master/doc/esp8266wifi/client-secure-examples.rst) to secure your data. Keep in mind that due to the security checks needed, the packet may take a little more time to be sent than without TLS. If you wish to send data insecurely, use UDP or any of the available examples at our ![docs](https://ubidots.com/docs/hw/).
-
-As Ubidots makes its best to secure your data, we do not guarantee any issue, data miss or external sniff coming from the native secure client or bugs in the library.
 
 ## Methods
 
