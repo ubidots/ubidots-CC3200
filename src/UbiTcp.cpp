@@ -75,7 +75,11 @@ bool UbiTCP::sendData(const char *device_label, const char *device_name,
 
   /* Sends data to Ubidots */
   if (_client_tcp_ubi.connected()) {
+    if (_debug) {
+      Serial.println("TCP Payload being sent");
+      Serial.println(payload);
     _client_tcp_ubi.print(payload);
+    }
   } else {
     if (_debug) {
       Serial.println("[ERROR] Could not connect to the host");
