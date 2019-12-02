@@ -108,6 +108,17 @@ bool wifiConnect(const char* ssid, const char* password)
 Attempts to connect to the cloud using WiFi with the specified credentials.
 
 ```
+bool wifiConnectSettings(IPAddress ip, IPAddress dns, IPAddress gateway, IPAddress subnet)
+```
+
+> @ip, [Required]. Static IP to request from the router/gateway
+> @dns, [Required]. Custom DNS 
+> @gateway, [Required]. Router/Gateway Ip address 
+> @subnet, [Required]. Subnet mask to request from the Router/Gateway  
+
+Configure the internal WiFi module to perform a connection to the WiFi with fixed ip, subnet, gateway and dns.
+
+```
 bool wifiConnected()
 ```
 Returns true if the device is connected to the cloud using WiFi.
