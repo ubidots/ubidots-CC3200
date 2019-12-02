@@ -43,7 +43,6 @@ private:
   IotProtocol _iotProtocol;
 
   void _builder(const char *token, UbiServer server, IotProtocol iot_protocol);
-  void _getDeviceMac(char macAddr[]);
 
 public:
   explicit Ubidots(const char *token, IotProtocol iotProtocol);
@@ -74,6 +73,7 @@ public:
   bool wifiConnect(const char *ssid, const char *password);
   bool wifiConnected();
   bool serverConnected();
+  void getDeviceMac(char macAddr[]);
   void setDeviceType(const char *deviceType);
 };
 
