@@ -29,10 +29,6 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 #include <WiFi.h>
 #include <time.h>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#pragma GCC diagnostic pop
-
 class UbiHTTP : public UbiProtocol {
 
 private:
@@ -56,8 +52,9 @@ public:
   UbiHTTP(const char *server, const int port, const char *user_agent,
           const char *token);
   ~UbiHTTP();
-  bool sendData(const char *device_label, const char *device_name,
-                char *payload);
+  bool sendData(char *payload, const char *device_label,
+                        const char *device_name, Value *_dots,
+                        int8_t *_current_value, UbiToken _token);
   float get(const char *device_label, const char *variable_label);
   void setDebug(bool debug);
   bool serverConnected();

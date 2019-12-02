@@ -40,10 +40,7 @@ class UbiProtocolHandler {
   UbiToken _token;
   Value* _dots;
 
-  void buildHttpPayload(char* payload);
-  void buildTcpPayload(char* payload, const char* device_label, const char* device_name);
   void _builder(UbiToken token, UbiServer server, IotProtocol iot_protocol);
-  void _floatToChar(char* value_str, float value);
   void _getDeviceMac(char macAdrr[]);
 
  public:

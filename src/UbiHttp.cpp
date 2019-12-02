@@ -28,7 +28,8 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
  * Overloaded constructors
  ***************************************************************************/
 
-UbiHTTP::UbiHTTP(const char* server, const int port, const char* user_agent, const char* token) {
+UbiHTTP::UbiHTTP(const char *server, const int port, const char *user_agent,
+                 const char *token) {
   _server = server;
   _user_agent = user_agent;
   _token = token;
@@ -45,9 +46,11 @@ UbiHTTP::~UbiHTTP() {
   delete[] _token;
 }
 
-bool UbiHTTP::sendData(const char* device_label, const char* device_name, char* payload) {
+bool UbiHTTP::sendData(char *payload, const char *device_label,
+                       const char *device_name, Value *_dots,
+                       int8_t *_current_value, UbiToken _token) {
+  buildHttpPayload(payload, _dots, _current_value);
   /* Connecting the client */
-
   _client_http_ubi.connect(_server, UBIDOTS_HTTP_PORT);
   reconnect(_server, UBIDOTS_HTTP_PORT);
 
@@ -60,7 +63,7 @@ bool UbiHTTP::sendData(const char* device_label, const char* device_name, char* 
 
   bool result = false;
 
-  if (_client_http_ubi.connected()) {  // Connect to the host
+  if (_client_http_ubi.connected()) { // Connect to the host
     /* Builds the request POST - Please reference this link to know all the
      * request's structures https://ubidots.com/docs/api/ */
 
@@ -127,7 +130,7 @@ bool UbiHTTP::sendData(const char* device_label, const char* device_name, char* 
         Serial.println("Could not read server's response");
       }
     }
-  } else {  // Could not connect to the server
+  } else { // Could not connect to the server
     if (_debug) {
       Serial.println("Could not send data to ubidots using HTTP");
     }
@@ -137,7 +140,7 @@ bool UbiHTTP::sendData(const char* device_label, const char* device_name, char* 
   return result;
 }
 
-float UbiHTTP::get(const char* device_label, const char* variable_label) {
+float UbiHTTP::get(const char *device_label, const char *variable_label) {
   /* Connecting the client */
   _client_http_ubi.connect(_server, UBIDOTS_HTTP_PORT);
   reconnect(_server, UBIDOTS_HTTP_PORT);
@@ -190,7 +193,7 @@ float UbiHTTP::get(const char* device_label, const char* variable_label) {
     }
 
     /* Reads the response from the server */
-    char* response = (char*)malloc(sizeof(char) * MAX_BUFFER_SIZE);
+    char *response = (char *)malloc(sizeof(char) * MAX_BUFFER_SIZE);
     readServerAnswer(response);
 
     /* Parses the answer */
@@ -214,7 +217,7 @@ float UbiHTTP::get(const char* device_label, const char* variable_label) {
  *         false if timeout is reached.
  */
 
-void UbiHTTP::reconnect(const char* server, const int port) {
+void UbiHTTP::reconnect(const char *server, const int port) {
   uint8_t attempts = 0;
   while (!_client_http_ubi.connected() && attempts < _maxReconnectAttempts) {
     if (_debug) {
@@ -232,18 +235,19 @@ void UbiHTTP::reconnect(const char* server, const int port) {
   }
 }
 
-float UbiHTTP::parseHttpAnswer(const char* request_type, char* data) {
+float UbiHTTP::parseHttpAnswer(const char *request_type, char *data) {
   float result = ERROR_VALUE;
 
   // LV
   if (request_type == "LV") {
     char parsed[20];
     char dst[20];
-    int len = strlen(data);  // Length of the answer char array from the server
+    int len = strlen(data); // Length of the answer char array from the server
 
     for (int i = 0; i < len - 2; i++) {
-      if ((data[i] == '\r') && (data[i + 1] == '\n') && (data[i + 2] == '\r') && (data[i + 3] == '\n')) {
-        strncpy(parsed, data + i + 4, 20);  // Copies the result to the parsed
+      if ((data[i] == '\r') && (data[i + 1] == '\n') && (data[i + 2] == '\r') &&
+          (data[i + 3] == '\n')) {
+        strncpy(parsed, data + i + 4, 20); // Copies the result to the parsed
         parsed[20] = '\0';
         break;
       }
@@ -254,12 +258,12 @@ float UbiHTTP::parseHttpAnswer(const char* request_type, char* data) {
     uint8_t index = 0;
 
     // Creates pointers to split the value
-    char* pch = strchr(parsed, '\n');
+    char *pch = strchr(parsed, '\n');
     if (pch == NULL) {
       return result;
     }
 
-    char* pch2 = strchr(pch + 1, '\n');
+    char *pch2 = strchr(pch + 1, '\n');
 
     if (pch2 == NULL) {
       return result;
@@ -281,7 +285,7 @@ float UbiHTTP::parseHttpAnswer(const char* request_type, char* data) {
  * @arg response [Mandatory] Pointer to store the server's answer
  */
 
-void UbiHTTP::readServerAnswer(char* response) {
+void UbiHTTP::readServerAnswer(char *response) {
   // Fills with zeros
   for (int i = 0; i <= MAX_BUFFER_SIZE; i++) {
     response[i] = '\0';

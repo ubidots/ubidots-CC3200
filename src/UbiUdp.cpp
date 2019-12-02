@@ -24,6 +24,7 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 
 #include "UbiUdp.h"
 
+
 /**************************************************************************
  * Overloaded constructors
  ***************************************************************************/
@@ -48,8 +49,12 @@ UbiUDP::~UbiUDP() {
   _client_udp_ubi.stop();
 }
 
-bool UbiUDP::sendData(const char *device_label, const char *device_name,
-                      char *payload) {
+bool UbiUDP::sendData(char *payload, const char *device_label,
+                      const char *device_name, Value *_dots,
+                      int8_t *_current_value, UbiToken _token) {
+
+  buildTcpPayload(payload, device_label, device_name, _dots,
+                         _current_value, _token);
   /* Sends data to Ubidots */
   _client_udp_ubi.begin(UBIDOTS_TCP_PORT);
   if (!(_client_udp_ubi.beginPacket(UBI_INDUSTRIAL, UBIDOTS_TCP_PORT) &&

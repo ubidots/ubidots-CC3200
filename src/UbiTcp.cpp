@@ -67,8 +67,11 @@ UbiTCP::~UbiTCP() {
  * @return true The data was succesfully published
  * @return false Something went wrong with the sending.
  */
-bool UbiTCP::sendData(const char *device_label, const char *device_name,
-                      char *payload) {
+bool UbiTCP::sendData(char *payload, const char *device_label,
+                      const char *device_name, Value *_dots,
+                      int8_t *_current_value, UbiToken _token) {
+  buildTcpPayload(payload, device_label, device_name, _dots,
+                         _current_value, _token);
   /* Connecting the client */
   _client_tcp_ubi.connect(_server, UBIDOTS_TCP_PORT);
   reconnect(_server, UBIDOTS_TCP_PORT);
@@ -78,7 +81,7 @@ bool UbiTCP::sendData(const char *device_label, const char *device_name,
     if (_debug) {
       Serial.println("TCP Payload being sent");
       Serial.println(payload);
-    _client_tcp_ubi.print(payload);
+      _client_tcp_ubi.print(payload);
     }
   } else {
     if (_debug) {

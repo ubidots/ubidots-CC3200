@@ -1,8 +1,6 @@
+ #include "UbiUtils.h"
 
-#include "UbiTypes.h"
-
-namespace Utils {
-/*
+ /*
 * Stores the float type value into the char array input
 * @str_value [Mandatory] char payload pointer to store the value.
 * @value [Mandatory] Float value to convert
@@ -86,7 +84,7 @@ void buildHttpPayload(char *payload, Value *_dots, int8_t *_current_value) {
 
 void buildTcpPayload(char *payload, const char *device_label,
                      const char *device_name, Value *_dots,
-                     int8_t *_current_value) {
+                     int8_t *_current_value, UbiToken _token) {
   sprintf(payload, "");
   sprintf(payload, "%s|POST|%s|", USER_AGENT, _token);
   sprintf(payload, "%s%s:%s", payload, device_label, device_name);
@@ -129,5 +127,4 @@ void buildTcpPayload(char *payload, const char *device_label,
       *_current_value = 0;
     }
   }
-}
 }

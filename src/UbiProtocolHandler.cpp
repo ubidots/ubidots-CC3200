@@ -23,7 +23,6 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 */
 
 #include "UbiProtocolHandler.h"
-#include "Utils.h"
 /**************************************************************************
  * Overloaded constructors
  ***************************************************************************/
@@ -101,12 +100,14 @@ bool UbiProtocolHandler::send(const char *device_label,
                               const char *device_name) {
   // Builds the payload
   char *payload = (char *)malloc(sizeof(char) * MAX_BUFFER_SIZE);
-  if (_iot_protocol == UBI_TCP || _iot_protocol == UBI_UDP) {
-    Utils::buildTcpPayload(payload, device_label, device_name, _dots, &_current_value);
-  } else {
-    Utils::buildHttpPayload(payload, _dots, &_current_value);
+
+  // Sends data
+  if (_debug) {
+    Serial.println("Sending data...");
   }
 
+  bool result = _ubiProtocol->sendData(payload, device_label, device_name,
+                                       _dots, &_current_value, _token);
   if (_debug) {
     Serial.println("----------");
     Serial.println("payload:");
@@ -115,12 +116,6 @@ bool UbiProtocolHandler::send(const char *device_label,
     Serial.println("");
   }
 
-  // Sends data
-  if (_debug) {
-    Serial.println("Sending data...");
-  }
-
-  bool result = _ubiProtocol->sendData(device_label, device_name, payload);
   free(payload);
   _current_value = 0;
   return result;

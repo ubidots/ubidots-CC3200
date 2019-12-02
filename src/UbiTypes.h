@@ -25,8 +25,6 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 #ifndef _UbiTypes_H_
 #define _UbiTypes_H_
 
-#include "UbiProtocol.h"
-
 typedef struct Value {
 
   const char *variable_label;
@@ -49,5 +47,7 @@ typedef const char *UbiToken;
 typedef const char *UbiAgent;
 typedef int UbiPort;
 typedef enum { UBI_HTTP, UBI_TCP, UBI_UDP } IotProtocol;
+
+
 
 #endif

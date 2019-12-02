@@ -50,8 +50,9 @@ public:
   UbiUDP(const char *server, const int port, const char *user_agent,
          const char *token);
   ~UbiUDP();
-  bool sendData(const char *device_label, const char *device_name,
-                char *payload);
+  bool sendData(char *payload, const char *device_label,
+                        const char *device_name, Value *_dots,
+                        int8_t *_current_value, UbiToken _token);
   float get(const char *device_label, const char *variable_label);
   void setDebug(bool debug);
   bool serverConnected();

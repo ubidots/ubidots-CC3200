@@ -27,12 +27,15 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 
 #include "Arduino.h"
 #include "UbiConstants.h"
+#include "UbiUtils.h"
 #include "stdint.h"
 
 class UbiProtocol {
- public:
-  virtual bool sendData(const char* device_label, const char* device_name, char* payload) = 0;
-  virtual float get(const char* device_label, const char* variable_label) = 0;
+public:
+  virtual bool sendData(char *payload, const char *device_label,
+                        const char *device_name, Value *_dots,
+                        int8_t *_current_value, UbiToken _token) = 0;
+  virtual float get(const char *device_label, const char *variable_label) = 0;
   virtual void setDebug(bool debug) = 0;
   virtual bool serverConnected();
 };
