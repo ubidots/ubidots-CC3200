@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-2019 Ubidots.
+Copyright (c) 2013-2018 Ubidots.
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including
@@ -17,8 +17,9 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Developed and maintained by Jose Garcia for Ubidots Inc
+Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 @jotathebest at github: https://github.com/jotathebest
+@crisap94 at github: https://github.com/crisap94
 */
 
 #include "UbiBuilder.h"
@@ -40,7 +41,7 @@ UbiBuilder::UbiBuilder(const char *server, const char *token,
 }
 
 UbiProtocol *UbiBuilder::builder() {
-  UbiProtocol *ubiBuilder = command_list[_iot_protocol]();  
+  UbiProtocol *ubiBuilder = command_list[_iot_protocol]();
   return ubiBuilder;
 }
 
