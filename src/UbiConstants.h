@@ -28,7 +28,6 @@ Developed and maintained by Jose Garcia and Cristian Arrieta for Ubidots
 #include "UbiTypes.h"
 #include "stdint.h"
 
-const char* const UBIDOTS_SERVER = "industrial.api.ubidots.com";
 const char UBIDOTS_INDUSTRIAL_IP[] = "169.55.61.243";
 const char* const USER_AGENT = "CC3200/3.0.0";
 const int UBIDOTS_HTTP_PORT = 80;
@@ -40,6 +39,6 @@ const float ERROR_VALUE = -3.4028235E+8;
 const int MAX_BUFFER_SIZE = 700;
 static UbiServer UBI_INDUSTRIAL = "industrial.api.ubidots.com";
 static UbiServer UBI_EDUCATIONAL = "things.ubidots.com";
-const int MAX_PROTOCOLS = 3;
+const int SUPPORTED_PROTOCOLS = 3;
 
 #endif
