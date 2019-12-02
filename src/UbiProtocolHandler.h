@@ -42,30 +42,20 @@ class UbiProtocolHandler {
 
   void buildHttpPayload(char* payload);
   void buildTcpPayload(char* payload, const char* device_label, const char* device_name);
-
   void _builder(UbiToken token, UbiServer server, IotProtocol iot_protocol);
   void _floatToChar(char* value_str, float value);
   void _getDeviceMac(char macAdrr[]);
 
  public:
   explicit UbiProtocolHandler(UbiToken token, IotProtocol iot_protocol);
-
   explicit UbiProtocolHandler(UbiToken token, UbiServer server = UBI_INDUSTRIAL, IotProtocol iot_protocol = UBI_TCP);
-
   ~UbiProtocolHandler();
-
   void add(const char* variable_label, float value, char* context, unsigned long dot_timestamp_seconds,
            unsigned int dot_timestamp_millis);
-
   bool send(const char* device_label, const char* device_name);
-
   float get(const char* device_label, const char* variable_label);
-
   void setDebug(bool debug);
-
   bool serverConnected();
-  
-
 };
 
 #endif

@@ -54,14 +54,10 @@ public:
   UbiTCP(const char *server, const int port, const char *user_agent,
          const char *token);
   ~UbiTCP();
-
   bool sendData(const char *device_label, const char *device_name,
                 char *payload);
-
   float get(const char *device_label, const char *variable_label);
-
   void setDebug(bool debug);
-
   bool serverConnected();
 };
 
